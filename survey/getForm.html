@@ -1,0 +1,54 @@
+<!-- 
+    Dr. Mark E. Lehr
+    Example for CSC/CIS 17B
+        Object serialization
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Create the _Get Object</title>
+        <script type="text/javascript" src="getForm.js"></script>
+        <script type="text/javascript" src="Question.js"></script>
+        <script type="text/javascript" src="Survey.js"></script>
+    </head>
+
+    <body>
+    <script type="text/javascript">
+        
+        //Grab the info from the form
+        var url=document.location.href;
+        $_GET=getForm(url);
+        var counter=0;
+        var answers=[];
+        for(property in $_GET){
+            var str=$_GET[property];          //Place property value in string
+            var dec=decodeURIComponent(str);  //Convert to ascii
+            var clean=dec.replace(/\++/g,' ');//Remove + and replace by space
+            $_GET[property]=clean;            //Cleaned values
+            counter++;
+            if(counter>3&&clean!="")answers.push(clean); //Place answers int their own array
+        }
+        //Retrieve the survey
+        var localsurv = localStorage.getItem($_GET["Number"]);
+        var survobj = JSON.parse(localsurv);
+        var currSurvey = new Survey(survobj);
+
+        //Fill the Question with form information and display
+        var q=new Question($_GET["QNumber"],$_GET["Question"],answers);
+        currSurvey.AddQuestion(q);
+        currSurvey.display();
+        
+        //Use JSON to turn into a string
+        var text=JSON.stringify(currSurvey);
+
+        //Store the survey
+        myStorage = window.localStorage;
+        localStorage.setItem(currSurvey.GetNumber(), text);
+
+        document.write("<p><a href='form.html'>Click Here to Add Another Question</a></p>");
+        document.write("<br><p><a href='index.html'>Click Here to return to home</a></p>");
+        
+    </script>
+    </body>
+</html>

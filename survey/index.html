@@ -1,0 +1,39 @@
+<html>
+    <head>
+            <script type="text/javascript" src="getForm.js"></script>
+            <script type="text/javascript" src="Question.js"></script>
+            <script type="text/javascript" src="Survey.js"></script>
+        <body>
+            <script>
+                function clearStorage() {
+                    localStorage.clear();
+                }
+                function dispSurvey() {
+                    num = document.getElementById('survid').value
+                    //Retrieve the survey
+                    var localsurv = localStorage.getItem(num);
+                    if (localsurv == null) {
+                        document.write("Survey does not exist");
+                        document.write("<br><br><a href='index.html'> Go Back </a>")
+                    }
+                    var survobj = JSON.parse(localsurv);
+                    var currSurvey = new Survey(survobj);
+                    currSurvey.display();
+
+                    document.write("<br><br><a href='index.html'> Go Back </a>")
+                }
+            </script>
+            Survey Number:<br>
+            <input type="text" name="survnum" id="survid" size="30" maxlength="70">
+            <button onclick="dispSurvey()">Display Survey</button>
+            <br><br>
+            <a href='createsurvey.html'>Create New Survey</a>
+            <br><br>
+            <a href='form.html'>Add Questions to Survey</a>
+            <br><br>
+            <button onclick="clearStorage()">Clear All Surveys</button>
+            <br>
+            <br>
+        </body>
+    </head>
+</html>
