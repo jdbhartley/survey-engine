@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="Survey.js"></script>
+    <script type="text/javascript" src="Question.js"></script>
+    <script type="text/javascript">
+        //Retrieve the survey
+        var index = document.location.href.split("=")[1];
+
+        // handles the click event, sends the query
+        function getSurvey(index) {
+            $.ajax({
+                url: 'getsurvey.php?index=' + index,
+                complete: function (response) {
+                    //Retrieve the survey
+                    alert(response.responseText);
+                    var survobj = JSON.parse(response.responseText);
+                    survey = new Survey("", survobj);
+                    drawOutput();
+                },
+                error: function () {
+                    alert("Bummer, there was an error!");
+                }
+            });
+            return false;
+        }
+
+        // handles the response, adds the html
+        function drawOutput() {
+            var container = document.getElementById('output');
+            var html = survey.displayGen();
+            container.innerHTML = html;
+        }
+
+
+        getSurvey(index);
+    </script>
+    <title>Survey Engine</title>
+</head>
+
+<body>
+    <p id="output">
+
+    </p>
+</body>
+
+</html>

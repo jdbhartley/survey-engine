@@ -52,7 +52,18 @@ Question.prototype.getAns=function(number){
     }
 };
 //Displaying the Question
-Question.prototype.display=function(){
+Question.prototype.display=function(index){
+    var returnString = "";
+    returnString += "<div class='del'><p>" + this.qstn + "  " + "<a onclick='deleteQuestion(" + index + ")' href='#'>Delete</a></p></div>";
+    for(var i=0;i<this.ans.length;i++){
+        if(this.ans[i].length>0)
+        returnString += '<input type="radio" name=' + this.cat + " value=" + this.ans +
+                        ">" +this.ans[i] + "<br> </br>";
+    }
+    return returnString;
+};
+//Displaying the Question
+Question.prototype.displayGen=function(index){
     var returnString = "";
     returnString += "<p>" + this.qstn + "</p>";
     for(var i=0;i<this.ans.length;i++){

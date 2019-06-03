@@ -38,3 +38,9 @@ function getList() {
     resString += "</table>";
     return resString;
  }
+
+ function GenerateLink(index) {
+    var url = document.location.href;
+    url += "generate.html?index=" + index;
+    alert(url);
+ }

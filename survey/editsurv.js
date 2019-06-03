@@ -3,6 +3,7 @@ var survey;
 
 function editSurvey(index){
     getSurvey(index);
+    drawOutput();
 }
 
 // handles the click event, sends the query
@@ -84,6 +85,14 @@ function addQuestion() {
 function saveSurvey() {
     updateSurvey(value, JSON.stringify(survey));
     alert("Saved!");
+}
+
+function deleteQuestion(index) {
+    var r = confirm("Are you sure you want to delete the question?");
+    if (r == true) {
+        survey.DeleteQuestion(index);
+        drawOutput();
+    } 
 }
 
 function deleteSurvey() {
